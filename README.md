@@ -1,2 +1,2 @@
 # damfara
-aplicación de python para comprimir tus imagenes
+Aplicación de python para comprimir tus imagenes

@@ -2,7 +2,7 @@ __author__ = 'gaspardzul'
 
 
 from setuptools import setup
-APP = ['main2.py']
+APP = ['damfara.py']
 
 
 OPTIONS = {

@@ -2,7 +2,7 @@ __author__ = 'gaspardzul'
 
 
 from setuptools import setup
-APP = ['damfara.py']
+APP = ['main.py']
 
 
 OPTIONS = {
@@ -14,5 +14,5 @@ setup(
     setup_requires = ['py2app'],
     options = {'py2app': OPTIONS},
     name="damfara",
-    description= "Compresor de imagenes"
+    description= "Compresor de imagenes en python"
     )

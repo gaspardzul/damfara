@@ -81,7 +81,7 @@ class MainUI(QtGui.QMainWindow):
         quality = self.slideQuality.value()
 
         #obtenermos cuantos elementos tipo imagen tenemos en el directorio seleccionado
-        for file_image in glob.glob(unicode('{0}/*.jpg'. format(directorio_entrada))) + glob.glob(unicode('{0}/*.png'. format(directorio_entrada))) + glob.glob(unicode('{0}/*.jpeg'. format(directorio_entrada))) + glob.glob(unicode('{0}/*.JPG'. format(directorio_entrada))):
+        for file_image in glob.glob(('{0}/*.jpg'.format(directorio_entrada))) + glob.glob(('{0}/*.png'.format(directorio_entrada))) + glob.glob(('{0}/*.jpeg'.format(directorio_entrada))) + glob.glob(('{0}/*.JPG'.format(directorio_entrada))):
             config.imagenes_en_directorio += 1
 
         if config.imagenes_en_directorio>0:
@@ -93,6 +93,7 @@ class MainUI(QtGui.QMainWindow):
             QtCore.QObject.connect(self.t, QtCore.SIGNAL("update(PyQt_PyObject)"), self.update) #le decimos al thread que podrá accede a la funcion update desde su funcion run
             QtCore.QObject.connect(self.t, QtCore.SIGNAL("alert(PyQt_PyObject)"), self.alert) #le decimos al thread que podrá acceder a la funcion alert desde su funcion run
             self.t.start()
+            self.enableControls(False);
             # self.t=threading.Thread(target=self.progressWorker)
             # self.t.start()
         else:
@@ -105,6 +106,7 @@ class MainUI(QtGui.QMainWindow):
     def alert(self,text):
         QMessageBox.information(self,'Aviso',text)
         self.progressBar.setValue(0)
+        self.enableControls(True);
 
 
     def buildUI(self):
@@ -177,8 +179,16 @@ class MainUI(QtGui.QMainWindow):
 
 
 
+    def enableControls(self,estado):
+        self.btnDirI.setEnabled(estado);
+        self.btnDirO.setEnabled(estado),
+        self.btnCompress.setEnabled(estado);
+        self.txtDirI.setEnabled(estado);
+        self.txtDirO.setEnabled(estado);
+
 
     def run(self):
+
         self.buildUI()
         self.setText()
         self.actionsUI()

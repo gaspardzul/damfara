@@ -22,7 +22,9 @@ def compressImg(file_image,dirO,quality):
     dir, extensionFile = os.path.splitext(file_image)
     nameFile = dir.split('/')
     nameFile = nameFile[len(nameFile)-1]
-    img.save((dirO+"/{0}{1}{2}" . format(nameFile, "_compressed", extensionFile)), quality=quality) #########:D
+    #img.save((dirO+"/{0}{1}{2}" . format(nameFile, "_compressed", extensionFile)), quality=quality) #########:D
+    file_path = os.path.join("%s" % dirO, "%s_compressed%s" % (nameFile, extensionFile))
+    img.save(file_path, quality=quality) #########:D
 
 
 

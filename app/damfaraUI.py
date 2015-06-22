@@ -19,10 +19,13 @@ class workerThread(QtCore.QThread):
 
     def run(self):
         qa = int(self.conf.quality)
-        dir_i=str(self.conf.dir_input)
-        dir_o=str(self.conf.dir_output)
+        dir_i=self.conf.dir_input
+        dir_o=self.conf.dir_output
         count =0
-        for file_image in glob.glob(unicode('{0}/*.jpg'. format(dir_i))) + glob.glob(unicode('{0}/*.png'. format(dir_i))) + glob.glob(unicode('{0}/*.jpeg'. format(dir_i))) + glob.glob(unicode('{0}/*.JPG'. format(dir_i))):
+        images = []
+        for i in ('jpg','png','jpeg','JPG'):
+            images += glob.glob( os.path.join("%s" % dir_i, '*.%s' % i) )
+        for file_image in images:
             compressImg(file_image, dir_o, qa)
             count=count+1
             self.emit(QtCore.SIGNAL("update(PyQt_PyObject)"), count)
@@ -43,7 +46,7 @@ class MainUI(QtGui.QMainWindow):
     def openDirO(self):
         dirO = QtGui.QFileDialog.getExistingDirectory(None, 'Select a output folder:', '', QtGui.QFileDialog.ShowDirsOnly)
         if dirO:
-            config.dir_output=str(dirO)
+            config.dir_output=dirO
             self.txtDirO.setText(dirO)
 
 
@@ -80,9 +83,17 @@ class MainUI(QtGui.QMainWindow):
             return
         quality = self.slideQuality.value()
 
+        def get_image(directory):
+            res = []
+            for i in ('png','jpeg','JPEG','PNG','jpg','JPG'):
+                res.append(glob.glob(os.path.join("%s" % directory, "*.%s" % i)))
+            return  res
+                
+        config.imagenes_en_directorio += len(get_image(directorio_entrada))
+
         #obtenermos cuantos elementos tipo imagen tenemos en el directorio seleccionado
-        for file_image in glob.glob(('{0}/*.jpg'.format(directorio_entrada))) + glob.glob(('{0}/*.png'.format(directorio_entrada))) + glob.glob(('{0}/*.jpeg'.format(directorio_entrada))) + glob.glob(('{0}/*.JPG'.format(directorio_entrada))):
-            config.imagenes_en_directorio += 1
+        #for file_image in glob.glob(('{0}/*.jpg'.format(directorio_entrada))) + glob.glob(('{0}/*.png'.format(directorio_entrada))) + glob.glob(('{0}/*.jpeg'.format(directorio_entrada))) + glob.glob(('{0}/*.JPG'.format(directorio_entrada))):
+            #config.imagenes_en_directorio += 1
 
         if config.imagenes_en_directorio>0:
             # msg = QMessageBox.information(self,'Error','existen {0}'.format(self.imagenes_en_directorio))

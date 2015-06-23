@@ -86,8 +86,8 @@ class MainUI(QtGui.QMainWindow):
         def get_image(directory):
             res = []
             for i in ('png','jpeg','JPEG','PNG','jpg','JPG'):
-                res.append(glob.glob(os.path.join("%s" % directory, "*.%s" % i)))
-            return  res
+                res += (glob.glob(os.path.join("%s" % directory, "*.%s" % i)))
+            return res
                 
         config.imagenes_en_directorio += len(get_image(directorio_entrada))
 
